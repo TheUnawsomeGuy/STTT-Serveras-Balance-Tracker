@@ -1,0 +1,12 @@
+{
+    "display_name": "Serveras Balance Tracker",
+    "loading_order": 90,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "Antigravity",
+    "version": "1.0.0",
+    "homePage": "https://serveras.click",
+    "auto_update": false
+}

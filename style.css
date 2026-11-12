@@ -1,0 +1,497 @@
+/* ==============================================================================
+   Serveras Balance Tracker - Styling
+   ============================================================================== */
+
+/* Rotating animation for refresh icons */
+@keyframes serveras-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.serveras-spinning {
+    animation: serveras-spin 0.8s linear infinite !important;
+}
+
+/* ------------------------------------------------------------------------------
+   1. EXTENSIONS DRAWER SETTINGS PANEL
+------------------------------------------------------------------------------ */
+.serveras-drawer-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px 4px;
+    font-family: inherit;
+    color: var(--SmartThemeBodyColor, #cdd6f4);
+}
+
+.serveras-hero-card {
+    background: var(--black30a, rgba(0, 0, 0, 0.35));
+    border: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.12));
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.serveras-hero-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.serveras-hero-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    opacity: 0.75;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.serveras-env-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 9.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.serveras-env-tag.is-tauri {
+    background: rgba(137, 180, 250, 0.18);
+    color: #89b4fa;
+    border: 1px solid rgba(137, 180, 250, 0.35);
+}
+
+.serveras-env-tag.is-st {
+    background: rgba(166, 227, 161, 0.18);
+    color: #a6e3a1;
+    border: 1px solid rgba(166, 227, 161, 0.35);
+}
+
+.serveras-warning-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: rgba(249, 226, 175, 0.12);
+    border: 1px solid rgba(249, 226, 175, 0.35);
+    color: #f9e2af;
+    font-size: 11.5px;
+    line-height: 1.4;
+    margin-bottom: 6px;
+}
+
+.serveras-warning-box i {
+    font-size: 14px;
+    margin-top: 2px;
+    color: #f9e2af;
+}
+
+.serveras-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.serveras-refresh-btn {
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    color: var(--SmartThemeBodyColor, #cdd6f4);
+    padding: 3px 8px;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.serveras-refresh-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.serveras-hero-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 12px;
+}
+
+.serveras-balance-large {
+    font-size: 26px;
+    font-weight: 700;
+    font-family: var(--ide-font-mono, 'Consolas', 'Monaco', monospace);
+    color: #a6e3a1; /* Fresh green */
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.serveras-currency-est {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.85;
+    color: #89b4fa;
+}
+
+.serveras-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.serveras-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.serveras-stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    letter-spacing: 0.5px;
+}
+
+.serveras-stat-val {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--ide-font-mono, 'Consolas', monospace);
+}
+
+.serveras-cost-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(243, 139, 168, 0.15);
+    color: #f38ba8;
+    border: 1px solid rgba(243, 139, 168, 0.3);
+}
+
+.serveras-cost-pill.is-zero {
+    background: rgba(147, 153, 178, 0.15);
+    color: #9399b2;
+    border-color: rgba(147, 153, 178, 0.25);
+}
+
+.serveras-session-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(137, 180, 250, 0.15);
+    color: #89b4fa;
+    border: 1px solid rgba(137, 180, 250, 0.3);
+}
+
+/* Settings Controls */
+.serveras-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 10px 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--SmartThemeQuoteColor, #cba6f7);
+}
+
+.serveras-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.serveras-field-label {
+    font-size: 11.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.serveras-input-with-button {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.serveras-input-with-button input {
+    flex: 1;
+}
+
+.serveras-key-wrapper {
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+.serveras-key-wrapper input {
+    width: 100%;
+    padding-right: 32px;
+}
+
+.serveras-eye-toggle {
+    position: absolute;
+    right: 8px;
+    cursor: pointer;
+    opacity: 0.65;
+    font-size: 12px;
+    padding: 4px;
+    transition: opacity 0.2s;
+}
+
+.serveras-eye-toggle:hover {
+    opacity: 1;
+}
+
+.serveras-btn-small {
+    padding: 5px 10px;
+    font-size: 11.5px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.2));
+    background: var(--black30a, rgba(255, 255, 255, 0.08));
+    color: inherit;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.serveras-btn-small:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+}
+
+.serveras-subtext {
+    font-size: 10.5px;
+    opacity: 0.65;
+    line-height: 1.4;
+}
+
+.serveras-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin: 4px 0;
+    font-size: 12px;
+}
+
+/* History table */
+.serveras-history-wrapper {
+    max-height: 180px;
+    overflow-y: auto;
+    border: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.1));
+    border-radius: 6px;
+    background: var(--black30a, rgba(0, 0, 0, 0.2));
+    margin-top: 6px;
+}
+
+.serveras-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    font-family: var(--ide-font-mono, 'Consolas', monospace);
+}
+
+.serveras-history-table th {
+    text-align: left;
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 10px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.serveras-history-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.serveras-history-table tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.serveras-history-delta-neg {
+    color: #f38ba8;
+    font-weight: 600;
+}
+
+.serveras-history-delta-pos {
+    color: #a6e3a1;
+    font-weight: 600;
+}
+
+.serveras-history-empty {
+    text-align: center;
+    padding: 16px;
+    opacity: 0.5;
+    font-style: italic;
+    font-family: inherit;
+}
+
+/* ------------------------------------------------------------------------------
+   2. OPENCODE IDE STATUS BAR INTEGRATION
+------------------------------------------------------------------------------ */
+#opencode-status-bar .serveras-status-item {
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+#opencode-status-bar .serveras-status-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+#opencode-status-bar .serveras-status-item i.fa-coins {
+    color: #f9e2af; /* Golden coin */
+}
+
+#opencode-status-bar .serveras-status-item .serveras-sb-val {
+    font-family: var(--ide-font-mono, monospace);
+    font-weight: 600;
+    color: #a6e3a1;
+}
+
+#opencode-status-bar .serveras-status-item .serveras-sb-cost {
+    font-size: 10px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: rgba(243, 139, 168, 0.2);
+    color: #f38ba8;
+    margin-left: 2px;
+}
+
+/* ------------------------------------------------------------------------------
+   3. FLOATING BADGE / STANDARD HEADER WIDGET
+------------------------------------------------------------------------------ */
+#serveras-floating-badge {
+    position: fixed;
+    top: calc(12px + var(--tt-inset-top, 0px));
+    right: calc(70px + var(--tt-inset-right, 0px));
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(17, 17, 27, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11.5px;
+    color: #cdd6f4;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    user-select: none;
+}
+
+#serveras-floating-badge:hover {
+    background: rgba(24, 24, 37, 0.95);
+    border-color: rgba(166, 227, 161, 0.5);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 10px rgba(166, 227, 161, 0.2);
+    transform: translateY(-1px);
+}
+
+#serveras-floating-badge i.fa-coins {
+    color: #f9e2af;
+}
+
+#serveras-floating-badge .serveras-badge-val {
+    font-family: var(--ide-font-mono, monospace);
+    font-weight: 600;
+    color: #a6e3a1;
+}
+
+#serveras-floating-badge .serveras-badge-cost {
+    font-size: 10px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: rgba(243, 139, 168, 0.2);
+    color: #f38ba8;
+    font-weight: 600;
+}
+
+/* Hide floating badge in OpenCode IDE if status bar is visible */
+body.opencode-ide-active.opencode-has-status-bar #serveras-floating-badge {
+    display: none !important;
+}
+
+/* Alert badge for low balance */
+.serveras-low-balance {
+    color: #f38ba8 !important;
+    animation: serveras-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes serveras-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* ------------------------------------------------------------------------------
+   4. MOBILE / TAURITAVERN RESPONSIVE ADAPTATIONS
+------------------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    #serveras-floating-badge {
+        top: calc(8px + var(--tt-inset-top, 0px));
+        right: calc(54px + var(--tt-inset-right, 0px));
+        padding: 3px 8px;
+        font-size: 10.5px;
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #serveras-floating-badge .serveras-badge-cost {
+        display: none !important;
+    }
+
+    .serveras-hero-card {
+        padding: 12px;
+    }
+
+    .serveras-balance-large {
+        font-size: 20px;
+    }
+
+    .serveras-history-wrapper {
+        max-height: 140px;
+    }
+}
