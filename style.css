@@ -206,6 +206,73 @@
     border: 1px solid rgba(137, 180, 250, 0.3);
 }
 
+/* Active model card inside hero card */
+.serveras-active-model-card {
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 11px;
+}
+
+.serveras-active-model-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.serveras-active-model-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.serveras-active-model-title b {
+    color: #89b4fa;
+    font-family: var(--ide-font-mono, monospace);
+}
+
+.serveras-rate-pill {
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    background: rgba(166, 227, 161, 0.15);
+    color: #a6e3a1;
+    border: 1px solid rgba(166, 227, 161, 0.3);
+}
+
+.serveras-rate-pill.is-tier-free {
+    background: rgba(137, 180, 250, 0.18);
+    color: #89b4fa;
+    border-color: rgba(137, 180, 250, 0.35);
+}
+
+.serveras-active-model-multipliers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 10.5px;
+    opacity: 0.88;
+}
+
+.serveras-active-model-multipliers span {
+    font-family: var(--ide-font-mono, monospace);
+}
+
+.serveras-active-model-est {
+    font-size: 10.5px;
+    color: #f9e2af;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 /* Settings Controls */
 .serveras-section-title {
     font-size: 13px;
@@ -358,6 +425,137 @@
     opacity: 0.5;
     font-style: italic;
     font-family: inherit;
+}
+
+/* ------------------------------------------------------------------------------
+   1.2 AS-AI MODELS & PRICING CATALOG
+------------------------------------------------------------------------------ */
+.serveras-catalog-container {
+    border: 1px solid var(--SmartThemeBorderColor, rgba(255, 255, 255, 0.1));
+    border-radius: 6px;
+    background: var(--black30a, rgba(0, 0, 0, 0.22));
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.serveras-catalog-search-row input {
+    width: 100%;
+    font-size: 11.5px;
+}
+
+.serveras-catalog-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.serveras-filter-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    color: var(--SmartThemeBodyColor, #cdd6f4);
+    padding: 2px 7px;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.serveras-filter-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.serveras-filter-btn.is-active {
+    background: #89b4fa;
+    color: #11111b;
+    font-weight: 600;
+    border-color: #89b4fa;
+}
+
+.serveras-catalog-scroll {
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.serveras-catalog-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.serveras-catalog-table th {
+    position: sticky;
+    top: 0;
+    background: rgba(17, 17, 27, 0.95);
+    padding: 6px 8px;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.75;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2;
+}
+
+.serveras-catalog-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    font-family: var(--ide-font-mono, monospace);
+    font-size: 10.5px;
+    white-space: nowrap;
+}
+
+.serveras-catalog-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.serveras-copy-btn {
+    cursor: pointer;
+    border: 1px solid rgba(137, 180, 250, 0.3);
+    background: rgba(137, 180, 250, 0.1);
+    color: #89b4fa;
+    padding: 1px 5px;
+    font-size: 9.5px;
+    border-radius: 3px;
+    margin-left: 4px;
+    transition: all 0.15s ease;
+}
+
+.serveras-copy-btn:hover {
+    background: rgba(137, 180, 250, 0.25);
+    color: #ffffff;
+}
+
+.serveras-tier-tag {
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 9.5px;
+}
+
+.serveras-tier-tag.tier-free {
+    color: #89b4fa;
+    background: rgba(137, 180, 250, 0.15);
+}
+
+.serveras-tier-tag.tier-1 {
+    color: #a6e3a1;
+    background: rgba(166, 227, 161, 0.15);
+}
+
+.serveras-tier-tag.tier-2 {
+    color: #f9e2af;
+    background: rgba(249, 226, 175, 0.15);
+}
+
+.serveras-tier-tag.tier-3 {
+    color: #f38ba8;
+    background: rgba(243, 139, 168, 0.15);
 }
 
 /* ------------------------------------------------------------------------------
@@ -516,5 +714,15 @@ body.opencode-ide-active.opencode-has-status-bar #serveras-floating-badge {
 
     .serveras-history-wrapper {
         max-height: 140px;
+    }
+
+    .serveras-catalog-scroll {
+        max-height: 180px;
+    }
+
+    .serveras-catalog-table th,
+    .serveras-catalog-table td {
+        padding: 4px 5px;
+        font-size: 9.5px;
     }
 }
