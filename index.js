@@ -272,22 +272,37 @@ function buildFetchCandidates(targetUrl, settings) {
         });
     }
 
-    // 2. Standard SillyTavern relative CORS proxy
-    if (settings.useCorsProxy) {
+    // In TauriTavern, prioritize Direct Fetch since Tauri has no built-in /proxy/ route.
+    // In classic SillyTavern, prioritize the server's /proxy/ route.
+    if (isTauri) {
         candidates.push({
-            url: `/proxy/${targetUrl}`,
-            desc: 'SillyTavern Server Proxy (/proxy/)',
-            isProxy: true,
-            isRelativeProxy: true
+            url: targetUrl,
+            desc: 'Direct Endpoint',
+            isProxy: false
+        });
+        if (settings.useCorsProxy) {
+            candidates.push({
+                url: `/proxy/${targetUrl}`,
+                desc: 'SillyTavern Server Proxy (/proxy/)',
+                isProxy: true,
+                isRelativeProxy: true
+            });
+        }
+    } else {
+        if (settings.useCorsProxy) {
+            candidates.push({
+                url: `/proxy/${targetUrl}`,
+                desc: 'SillyTavern Server Proxy (/proxy/)',
+                isProxy: true,
+                isRelativeProxy: true
+            });
+        }
+        candidates.push({
+            url: targetUrl,
+            desc: 'Direct Endpoint',
+            isProxy: false
         });
     }
-
-    // 3. Direct Fetch
-    candidates.push({
-        url: targetUrl,
-        desc: 'Direct Endpoint',
-        isProxy: false
-    });
 
     // 4. In TauriTavern, auto-probe localhost / emulator SillyTavern proxy if running
     if (isTauri) {
