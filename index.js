@@ -292,13 +292,13 @@ function buildFetchCandidates(targetUrl, settings) {
     // 4. In TauriTavern, auto-probe localhost SillyTavern proxy if running
     if (isTauri) {
         candidates.push({
-            url: `http://localhost:8008/proxy/${targetUrl}`,
-            desc: 'Local SillyTavern (port 8008)',
+            url: `http://localhost:8000/proxy/${targetUrl}`,
+            desc: 'Local SillyTavern (default port 8000)',
             isProxy: true
         });
         candidates.push({
-            url: `http://localhost:8000/proxy/${targetUrl}`,
-            desc: 'Local SillyTavern (port 8000)',
+            url: `http://localhost:8008/proxy/${targetUrl}`,
+            desc: 'Local SillyTavern (port 8008)',
             isProxy: true
         });
     }
@@ -865,19 +865,27 @@ function injectDrawerUI() {
     });
 
     $('#serveras_btn_detect_proxy').on('click', async function() {
-        const candidates = [
-            'http://localhost:8008/proxy/',
-            'http://127.0.0.1:8008/proxy/',
+        const candidates = [];
+
+        // If running in a web browser with HTTP/HTTPS origin, include origin proxy first
+        if (typeof window !== 'undefined' && window.location?.origin && /^https?:\/\//i.test(window.location.origin)) {
+            candidates.push(`${window.location.origin.replace(/\/+$/, '')}/proxy/`);
+        }
+
+        // Standard SillyTavern default port (8000), followed by 8008
+        candidates.push(
             'http://localhost:8000/proxy/',
-            'http://127.0.0.1:8000/proxy/'
-        ];
+            'http://127.0.0.1:8000/proxy/',
+            'http://localhost:8008/proxy/',
+            'http://127.0.0.1:8008/proxy/'
+        );
 
         toastr?.info?.('Probing local SillyTavern proxy...', 'Serveras Balance');
         let found = null;
         for (const c of candidates) {
             try {
                 const testUrl = c.replace(/\/proxy\/$/, '/version');
-                const resp = await fetch(testUrl, { method: 'GET' });
+                const resp = await fetch(testUrl, { method: 'GET', signal: AbortSignal.timeout(1500) });
                 if (resp.ok) {
                     found = c;
                     break;
@@ -1128,17 +1136,23 @@ jQuery(async () => {
         }
     }
 
-    // In TauriTavern, if customProxyUrl is empty, try to auto-detect local SillyTavern proxy on port 8008
+    // In TauriTavern, if customProxyUrl is empty, probe standard local SillyTavern proxy ports
     if (isTauriHost() && !settings.customProxyUrl) {
-        try {
-            const resp = await fetch('http://localhost:8008/version', { method: 'GET' });
-            if (resp.ok) {
-                settings.customProxyUrl = 'http://localhost:8008/proxy/';
-                saveSettings();
-                console.log('[Serveras Balance Tracker] Auto-configured local SillyTavern proxy for TauriTavern.');
+        for (const port of [8000, 8008]) {
+            try {
+                const resp = await fetch(`http://localhost:${port}/version`, {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(1200)
+                });
+                if (resp.ok) {
+                    settings.customProxyUrl = `http://localhost:${port}/proxy/`;
+                    saveSettings();
+                    console.log(`[Serveras Balance Tracker] Auto-configured local SillyTavern proxy on port ${port} for TauriTavern.`);
+                    break;
+                }
+            } catch {
+                // SillyTavern not running on this port, continue
             }
-        } catch {
-            // SillyTavern not running locally on 8008, continue
         }
     }
 

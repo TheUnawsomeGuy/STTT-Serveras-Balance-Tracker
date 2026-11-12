@@ -32,12 +32,13 @@ A SillyTavern and TauriTavern extension designed to track and monitor available 
 
 ## Installation & Configuration
 
-The extension is installed at:
-`data/default-user/extensions/Serveras-Balance-Tracker/`
+Install via SillyTavern or TauriTavern's **Extensions** menu using the Git repository URL (`https://github.com/TheUnawsomeGuy/STTT-Serveras-Balance-Tracker.git`), or clone/extract this repository into your extensions directory:
+- SillyTavern: `data/default-user/extensions/Serveras-Balance-Tracker` or `public/scripts/extensions/third-party/Serveras-Balance-Tracker`
+- TauriTavern: Place in your extensions storage directory or install via the in-app extension loader.
 
 Open SillyTavern or TauriTavern -> Extensions Panel (Puzzle Piece Icon) -> **Serveras Balance Tracker** to customize:
 1. **API Key**: Click **Auto-Fill** to automatically retrieve from active settings or the Tauri secret store.
-2. **Endpoint URL**: Defaults to `https://serveras.click/v1/balance`.
-3. **Custom Proxy URL**: On TauriTavern (mobile/desktop), click **Auto-Detect** to scan for your local SillyTavern proxy (e.g. `http://localhost:8008/proxy/` or LAN IP).
+2. **Endpoint URL**: Defaults to `https://serveras.click/v1/balance` (customizable).
+3. **Custom Proxy URL**: On TauriTavern (mobile/desktop), click **Auto-Detect** to scan for your local/LAN SillyTavern proxy (e.g. `http://localhost:8000/proxy/` or LAN IP).
 4. **Auto-refresh toggles & polling intervals**: Configure auto-refresh on generation completion and background interval.
 5. **Display format & currency conversion ratio**: Customize display format and credit-to-USD conversion.
