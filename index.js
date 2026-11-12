@@ -289,16 +289,26 @@ function buildFetchCandidates(targetUrl, settings) {
         isProxy: false
     });
 
-    // 4. In TauriTavern, auto-probe localhost SillyTavern proxy if running
+    // 4. In TauriTavern, auto-probe localhost / emulator SillyTavern proxy if running
     if (isTauri) {
         candidates.push({
             url: `http://localhost:8000/proxy/${targetUrl}`,
-            desc: 'Local SillyTavern (default port 8000)',
+            desc: 'Local SillyTavern (port 8000)',
             isProxy: true
         });
         candidates.push({
             url: `http://localhost:8008/proxy/${targetUrl}`,
             desc: 'Local SillyTavern (port 8008)',
+            isProxy: true
+        });
+        candidates.push({
+            url: `http://10.0.2.2:8008/proxy/${targetUrl}`,
+            desc: 'Android Host Loopback (port 8008)',
+            isProxy: true
+        });
+        candidates.push({
+            url: `http://10.0.2.2:8000/proxy/${targetUrl}`,
+            desc: 'Android Host Loopback (port 8000)',
             isProxy: true
         });
     }
@@ -730,7 +740,9 @@ function injectDrawerUI() {
                             </button>
                         </div>
                         <small style="opacity: 0.65; font-size: 11px; margin-top: 2px;">
-                            In TauriTavern, direct browser requests are blocked by CORS. You can route through your SillyTavern server (e.g. <code>http://localhost:8008/proxy/</code>) or leave blank if using a dev server.
+                            ${isTauri
+                                ? 'In TauriTavern, direct fetches are blocked by CORS. If using USB/Scrcpy, run <code>adb reverse tcp:8008 tcp:8008</code> on your PC. Over Wi-Fi, enter your PC\'s LAN IP (e.g. <code>http://192.168.1.136:8008/proxy/</code>).'
+                                : 'You can route through your SillyTavern server (e.g. <code>http://localhost:8008/proxy/</code>) or leave blank if using a dev server.'}
                         </small>
                     </div>
 
@@ -872,12 +884,14 @@ function injectDrawerUI() {
             candidates.push(`${window.location.origin.replace(/\/+$/, '')}/proxy/`);
         }
 
-        // Standard SillyTavern default port (8000), followed by 8008
+        // Standard SillyTavern default port (8000), followed by 8008, plus Android emulator loopbacks
         candidates.push(
             'http://localhost:8000/proxy/',
             'http://127.0.0.1:8000/proxy/',
             'http://localhost:8008/proxy/',
-            'http://127.0.0.1:8008/proxy/'
+            'http://127.0.0.1:8008/proxy/',
+            'http://10.0.2.2:8008/proxy/',
+            'http://10.0.2.2:8000/proxy/'
         );
 
         toastr?.info?.('Probing local SillyTavern proxy...', 'Serveras Balance');
@@ -900,7 +914,10 @@ function injectDrawerUI() {
             toastr?.success?.(`Found active SillyTavern proxy: ${found}`, 'Serveras Balance');
             fetchBalance({ silent: false });
         } else {
-            toastr?.warning?.('Could not auto-detect a local SillyTavern server. You can enter the URL manually if SillyTavern is running on another IP.', 'Serveras Balance');
+            const advice = isTauriHost()
+                ? 'Could not find local server on device. On Android via USB/Scrcpy, run "adb reverse tcp:8008 tcp:8008" on your PC, or enter your PC\'s Wi-Fi IP.'
+                : 'Could not auto-detect a local SillyTavern server. You can enter the URL manually if SillyTavern is running on another IP.';
+            toastr?.warning?.(advice, 'Serveras Balance');
         }
     });
 
