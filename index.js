@@ -819,8 +819,14 @@ function injectDrawerUI() {
 
                     <label class="serveras-checkbox-row">
                         <input type="checkbox" id="serveras_chk_floating_badge" ${s.showFloatingBadge ? 'checked' : ''} />
-                        <span>Show floating top widget</span>
+                        <span>Show floating badge widget</span>
                     </label>
+                    <div style="display: flex; gap: 8px; align-items: center; margin-left: 20px; margin-bottom: 6px; flex-wrap: wrap;">
+                        <button type="button" class="serveras-btn-small" id="serveras_btn_reset_pos" style="font-size: 10.5px; padding: 2px 7px;">
+                            <i class="fa-solid fa-arrows-to-dot"></i> Reset Badge Position
+                        </button>
+                        <small style="opacity: 0.65; font-size: 10px;">(Tip: Drag badge anywhere on screen with finger/mouse!)</small>
+                    </div>
 
                     <!-- History Section -->
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
@@ -998,6 +1004,19 @@ function injectDrawerUI() {
         updateUI();
     });
 
+    $('#serveras_btn_reset_pos').on('click', function() {
+        delete s.badgePos;
+        saveSettings();
+        const badge = document.getElementById('serveras-floating-badge');
+        if (badge) {
+            badge.style.left = '';
+            badge.style.top = '';
+            badge.style.right = '';
+            badge.style.bottom = '';
+        }
+        toastr?.info?.('Badge position reset to default.', 'Serveras Balance');
+    });
+
     $('#serveras_btn_clear_history').on('click', function() {
         s.history = [];
         saveSettings();
@@ -1045,6 +1064,106 @@ function injectStatusBarWidget() {
 }
 
 /**
+ * Enable drag & drop positioning with touch and mouse support
+ */
+function makeBadgeDraggable(badge) {
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let initialLeft = 0;
+    let initialTop = 0;
+    let hasMoved = false;
+
+    // Restore saved position if present
+    const s = getSettings();
+    if (s.badgePos && typeof s.badgePos === 'object') {
+        const { left, top } = s.badgePos;
+        if (left !== undefined && top !== undefined) {
+            badge.style.left = left;
+            badge.style.top = top;
+            badge.style.right = 'auto';
+            badge.style.bottom = 'auto';
+        }
+    }
+
+    function onPointerDown(e) {
+        if (e.button !== undefined && e.button !== 0) return;
+        isDragging = true;
+        hasMoved = false;
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        startX = clientX;
+        startY = clientY;
+
+        const rect = badge.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        badge.style.transition = 'none';
+        badge.style.right = 'auto';
+        badge.style.bottom = 'auto';
+        badge.style.left = `${initialLeft}px`;
+        badge.style.top = `${initialTop}px`;
+        badge.classList.add('serveras-dragging');
+
+        if (e.type === 'touchstart') {
+            window.addEventListener('touchmove', onPointerMove, { passive: false });
+            window.addEventListener('touchend', onPointerUp, { once: true });
+            window.addEventListener('touchcancel', onPointerUp, { once: true });
+        } else {
+            window.addEventListener('mousemove', onPointerMove);
+            window.addEventListener('mouseup', onPointerUp, { once: true });
+        }
+    }
+
+    function onPointerMove(e) {
+        if (!isDragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+            hasMoved = true;
+            if (e.cancelable) e.preventDefault();
+        }
+
+        const maxLeft = Math.max(0, window.innerWidth - badge.offsetWidth);
+        const maxTop = Math.max(0, window.innerHeight - badge.offsetHeight);
+        const newLeft = Math.max(0, Math.min(maxLeft, initialLeft + dx));
+        const newTop = Math.max(0, Math.min(maxTop, initialTop + dy));
+
+        badge.style.left = `${newLeft}px`;
+        badge.style.top = `${newTop}px`;
+    }
+
+    function onPointerUp() {
+        if (!isDragging) return;
+        isDragging = false;
+        badge.style.transition = '';
+        badge.classList.remove('serveras-dragging');
+
+        window.removeEventListener('mousemove', onPointerMove);
+        window.removeEventListener('touchmove', onPointerMove);
+
+        if (hasMoved) {
+            const currentSettings = getSettings();
+            currentSettings.badgePos = {
+                left: badge.style.left,
+                top: badge.style.top,
+            };
+            saveSettings();
+        } else {
+            fetchBalance({ silent: false });
+        }
+    }
+
+    badge.addEventListener('mousedown', onPointerDown);
+    badge.addEventListener('touchstart', onPointerDown, { passive: true });
+}
+
+/**
  * Inject Floating Widget with Layout ABI mobile surface support
  */
 function injectFloatingWidget() {
@@ -1053,16 +1172,14 @@ function injectFloatingWidget() {
     const badge = document.createElement('div');
     badge.id = 'serveras-floating-badge';
     badge.setAttribute('data-tt-mobile-surface', 'free-window');
+    badge.title = 'Serveras Balance (Drag to move, click to refresh)';
     badge.innerHTML = `
         <i class="fa-solid fa-coins"></i>
         <span class="serveras-badge-val">—</span>
         <span class="serveras-badge-cost" style="display:none;"></span>
     `;
 
-    badge.addEventListener('click', (e) => {
-        e.stopPropagation();
-        fetchBalance({ silent: false });
-    });
+    makeBadgeDraggable(badge);
 
     document.body.appendChild(badge);
     updateUI();

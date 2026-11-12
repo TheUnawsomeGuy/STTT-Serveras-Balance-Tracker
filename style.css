@@ -407,26 +407,34 @@
     z-index: 9999;
     display: flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(17, 17, 27, 0.85);
+    gap: 5px;
+    background: rgba(17, 17, 27, 0.88);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 11.5px;
+    padding: 3px 10px;
+    font-size: 11px;
     color: #cdd6f4;
-    cursor: pointer;
+    cursor: grab;
+    touch-action: none;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    transition: box-shadow 0.2s ease, transform 0.15s ease, background 0.2s ease;
     user-select: none;
+    -webkit-user-select: none;
 }
 
 #serveras-floating-badge:hover {
     background: rgba(24, 24, 37, 0.95);
     border-color: rgba(166, 227, 161, 0.5);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 10px rgba(166, 227, 161, 0.2);
-    transform: translateY(-1px);
+}
+
+#serveras-floating-badge.serveras-dragging {
+    cursor: grabbing !important;
+    opacity: 0.9;
+    transform: scale(1.06);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(166, 227, 161, 0.35);
 }
 
 #serveras-floating-badge i.fa-coins {
@@ -469,11 +477,26 @@ body.opencode-ide-active.opencode-has-status-bar #serveras-floating-badge {
 ------------------------------------------------------------------------------ */
 @media (max-width: 768px) {
     #serveras-floating-badge {
-        top: calc(8px + var(--tt-inset-top, 0px));
-        right: calc(54px + var(--tt-inset-right, 0px));
-        padding: 3px 8px;
-        font-size: 10.5px;
-        max-width: 140px;
+        /* Default below top-bar to completely avoid overlapping top navigation icons */
+        top: calc(46px + var(--tt-inset-top, 0px));
+        right: calc(12px + var(--tt-inset-right, 0px));
+        padding: 2px 7px;
+        font-size: 10px;
+        max-width: 105px;
+        height: 22px;
+        line-height: 1;
+        border-radius: 11px;
+        gap: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        background: rgba(17, 17, 27, 0.9);
+    }
+
+    #serveras-floating-badge i.fa-coins {
+        font-size: 9.5px;
+    }
+
+    #serveras-floating-badge .serveras-badge-val {
+        font-size: 9.5px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
